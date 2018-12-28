@@ -1,0 +1,1 @@
+typedef OnItemClickListener = void Function(int position);

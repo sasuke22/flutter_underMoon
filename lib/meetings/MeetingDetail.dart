@@ -20,6 +20,4 @@ class MeetingDetail{
   int score;
   int pics;
   String reason;
-
-
 }

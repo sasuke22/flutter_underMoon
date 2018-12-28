@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_undermoon/meetings/MeetingDetail.dart';
+import 'package:flutter_undermoon/Interface/OnItemClickListener.dart';
 
 class MeetingItem extends StatelessWidget{
   MeetingDetail _meetingDetail;
+  OnItemClickListener listener;
+  int _position;
+
+  MeetingItem();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +44,9 @@ class MeetingItem extends StatelessWidget{
         ),
       ]
     );
-    return widget;
+    return InkWell(
+      onTap: () => listener(_position),
+      child: widget,
+    );
   }
 }
