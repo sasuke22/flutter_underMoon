@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'MeetingDetail.g.dart';
+
+@JsonSerializable()
 class MeetingDetail{
   int meetingId;
   int id;
@@ -20,4 +24,10 @@ class MeetingDetail{
   int score;
   int pics;
   String reason;
+
+  MeetingDetail(this.meetingId,this.id,this.city,this.age,this.height,this.summary,this.approve,{this.date});
+
+  factory MeetingDetail.fromJson(Map<String, dynamic> json) => _$MeetingDetailFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MeetingDetailToJson(this);
 }
