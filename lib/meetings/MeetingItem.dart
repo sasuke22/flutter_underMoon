@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_undermoon/meetings/MeetingDetail.dart';
 import 'package:flutter_undermoon/meetings/MeetingDetailScreen.dart';
+import 'package:flutter_undermoon/util/DateUtil.dart';
 
 class MeetingItem extends StatelessWidget{
   final MeetingDetail _meetingDetail;
-  final int _position;
 
-  MeetingItem(this._position,this._meetingDetail);
+  MeetingItem(this._meetingDetail);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class MeetingItem extends StatelessWidget{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              _meetingDetail.date.toString(),
+                              DateUtil.getFormatedTime(_meetingDetail.date),
                               style: TextStyle(
                                 fontSize: 16.0,
                               )
@@ -56,4 +56,5 @@ class MeetingItem extends StatelessWidget{
       child: widget,
     );
   }
+
 }

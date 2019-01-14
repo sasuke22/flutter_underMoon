@@ -7,6 +7,7 @@ import 'package:flutter_undermoon/meetings/MeetingDetail.dart';
 import 'package:flutter_undermoon/util/DioUtil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_undermoon/util/DateUtil.dart';
 
 class MeetingDetailScreen extends StatefulWidget{
   final int meetingId;
@@ -85,7 +86,8 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
                 return CachedNetworkImage(
                     fadeInDuration: Duration(milliseconds: 0),
                     fadeOutDuration: Duration(milliseconds: 0),
-                    imageUrl: _bannerUrls[index]
+                    imageUrl: data,
+//                    fit: BoxFit.cover,
                 );
               }),
         ),
@@ -113,7 +115,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
                     Padding(padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),child: Text("城市: ${_meetingDetail.city}")),
                   ]),
                   TableRow(children: <Widget>[
-                    Padding(padding: EdgeInsets.fromLTRB(10.0, 5.0, 5.0, 5.0),child: Text("日期: ${_meetingDetail.date.toString()}")),
+                    Padding(padding: EdgeInsets.fromLTRB(10.0, 5.0, 5.0, 5.0),child: Text("日期: ${DateUtil.getFormatedTime(_meetingDetail.date)}")),
                     Padding(padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),child: Text("年龄: ${_meetingDetail.age.toString()}")),
                   ]),
                   TableRow(children: <Widget>[
@@ -173,8 +175,9 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
       (MeetingDetail detail){
         setState(() {
           _meetingDetail = detail;
+          _bannerUrls = List<String>();
           for(int i = 0;i < _meetingDetail.pics;i++){
-            _bannerUrls.add(DioUtil.APPLICATION_SERVER + 'meeting/' + _meetingDetail.meetingId.toString() + '/' + i.toString() + '.jpg');
+            _bannerUrls.add(DioUtil.PIC_SERVER + _meetingDetail.meetingId.toString() + '/' + i.toString() + '.jpg');
           }
         });
       },
@@ -189,7 +192,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
           backgroundColor: Colors.lightBlue,
-          textColor: Colors.white
+          textColor: Colors.white,
       );
     else
       DioUtil().changeMeetingApprove((int result){

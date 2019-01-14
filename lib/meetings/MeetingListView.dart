@@ -13,7 +13,7 @@ class MeetingListView extends StatelessWidget {
     return ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
-          return new MeetingItem(index, list[index]);
+          return new MeetingItem(list[index]);
         }
     );
   }
