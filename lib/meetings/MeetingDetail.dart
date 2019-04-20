@@ -1,33 +1,73 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'MeetingDetail.g.dart';
-
-@JsonSerializable()
 class MeetingDetail{
   int meetingId;
   int id;
   String city;
   String summary;
   DateTime date;
-  bool read;
+  int gender;
   int approve;
   String type;
   String loveType;
   int age;
-  int marry;
+  String marry;
   int height;
   String job;
   String figure;
   String xingzuo;
   String content;
-  String registId;
+  int commentCount;
   String enlistersName;
   int score;
   int pics;
   String reason;
 
-  MeetingDetail(this.meetingId,this.id,this.city,this.age,this.height,this.summary,this.approve,{this.date});
+  MeetingDetail(this.id,this.city,this.content,this.summary,{this.date,this.age,this.height,this.job,this.gender,this.figure,this.xingzuo});
 
-  factory MeetingDetail.fromJson(Map<String, dynamic> json) => _$MeetingDetailFromJson(json);
+  MeetingDetail.fromJson(Map<String, dynamic> json)
+    : meetingId = json['meetingId'],
+    id = json['id'],
+    city = json['city'],
+    summary = json['summary'],
+    date = DateTime.parse(json['date']),
+    gender = json['gender'],
+    approve = json['approve'],
+    type = json['type'],
+    loveType = json['loveType'],
+    age = json['age'],
+    marry = json['marry'],
+    height = json['height'],
+    job = json['job'],
+    figure = json['figure'],
+    xingzuo = json['xingzuo'],
+    content = json['content'],
+    commentCount = json['commentCount'],
+    enlistersName = json['enlistersName'],
+    score = json['score'],
+    pics = json['pics'],
+    reason = json['reason'];
 
-  Map<String, dynamic> toJson() => _$MeetingDetailToJson(this);
+  Map<String, dynamic> toJson() =>
+  {
+    'meetingId' : meetingId,
+    'id' : id,
+    'city' : city,
+    'summary' : summary,
+    'date' : date,
+    'gender' : gender,
+    'approve' : approve,
+    'type' : type,
+    'loveType' : loveType,
+    'age' : age,
+    'marry' : marry,
+    'height' : height,
+    'job' : job,
+    'figure' : figure,
+    'xingzuo' : xingzuo,
+    'content' : content,
+    'commentCount' : commentCount,
+    'enlistersName' : enlistersName,
+    'score' : score,
+    'pics' : pics,
+    'reason' : reason
+  };
 }

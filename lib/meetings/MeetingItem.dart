@@ -22,7 +22,7 @@ class MeetingItem extends StatelessWidget{
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              DateUtil.getFormatedTime(_meetingDetail.date),
+                              DateUtil.getFormattedTime(_meetingDetail.date),
                               style: TextStyle(
                                 fontSize: 16.0,
                               )

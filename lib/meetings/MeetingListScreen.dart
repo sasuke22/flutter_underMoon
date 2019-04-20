@@ -97,7 +97,7 @@ class MeetingListScreenState extends State<MeetingListScreen>{
         ) : _body,
         floatingActionButton: FloatingActionButton(
           onPressed: () => _meetingListView.controller.animateTo(0.0, duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn),
-          child: Icon(Icons.keyboard_arrow_up),
+          child: Icon(Icons.vertical_align_top ),
         ),
     );
   }
@@ -108,7 +108,7 @@ class MeetingListScreenState extends State<MeetingListScreen>{
     if(_isLoading || !this.mounted)
       return null;
     _isLoading = true;
-    return DioUtil().getMeetingsByCount((MeetingsModel _model){
+    return DioUtil.getMeetingsByCount((MeetingsModel _model){
       setState(() {
         List<MeetingDetail> _temp = List<MeetingDetail>();
         if(!_displayAll)
@@ -138,4 +138,5 @@ class MeetingListScreenState extends State<MeetingListScreen>{
   }
 
   ScrollController _listViewController() {return ScrollController();}
+
 }

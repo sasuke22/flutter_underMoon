@@ -1,6 +1,5 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter_undermoon/meetings/MeetingDetail.dart';
-part 'MeetingsModel.g.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
 class MeetingsModel{
@@ -8,7 +7,16 @@ class MeetingsModel{
 
   MeetingsModel(this.meetings);
 
-  factory MeetingsModel.fromJson(Map<String, dynamic> json) => _$MeetingsModelFromJson(json);
+  MeetingsModel.fromJson(Map<String, dynamic> json){
+    meetings = List<MeetingDetail>();
+    (json['meetings'] as List).forEach((item){
+      MeetingDetail meeting = MeetingDetail.fromJson(item);
+      meetings.add(meeting);
+    });
+  }
 
-  toJson() => _$MeetingsModelToJson(this);
+  Map<String, dynamic> toJson() =>
+    {
+      'meetings' : meetings,
+    };
 }

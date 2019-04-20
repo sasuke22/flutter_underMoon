@@ -115,7 +115,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
                     Padding(padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),child: Text("城市: ${_meetingDetail.city}")),
                   ]),
                   TableRow(children: <Widget>[
-                    Padding(padding: EdgeInsets.fromLTRB(10.0, 5.0, 5.0, 5.0),child: Text("日期: ${DateUtil.getFormatedTime(_meetingDetail.date)}")),
+                    Padding(padding: EdgeInsets.fromLTRB(10.0, 5.0, 5.0, 5.0),child: Text("日期: ${DateUtil.getFormattedTime(_meetingDetail.date)}")),
                     Padding(padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),child: Text("年龄: ${_meetingDetail.age.toString()}")),
                   ]),
                   TableRow(children: <Widget>[
@@ -129,6 +129,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
                 child: TextField(
                   controller: _reasonController,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(5),
                     border: OutlineInputBorder(),
                     labelText: '请输入审核未通过的理由',
                   ),
@@ -171,13 +172,13 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
   }
 
   _loadMeetingDetail() {
-    DioUtil().getMeetingDetail(
+    DioUtil.getMeetingDetail(
       (MeetingDetail detail){
         setState(() {
           _meetingDetail = detail;
           _bannerUrls = List<String>();
           for(int i = 0;i < _meetingDetail.pics;i++){
-            _bannerUrls.add(DioUtil.PIC_SERVER + _meetingDetail.meetingId.toString() + '/' + i.toString() + '.jpg');
+            _bannerUrls.add(DioUtil.PIC_SERVER + 'meeting/${_meetingDetail.meetingId}/$i.jpg');
           }
         });
       },
@@ -195,7 +196,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
           textColor: Colors.white,
       );
     else
-      DioUtil().changeMeetingApprove((int result){
+      DioUtil.changeMeetingApprove((int result){
         Fluttertoast.showToast(
             msg: 1 == result ? '否决成功' : '否决失败',
             toastLength: Toast.LENGTH_SHORT,
@@ -208,7 +209,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
   }
 
   void _approve() {
-    DioUtil().changeMeetingApprove((int result){
+    DioUtil.changeMeetingApprove((int result){
       Fluttertoast.showToast(
           msg: 1 == result ? '通过成功' : '通过失败',
           toastLength: Toast.LENGTH_SHORT,
@@ -218,5 +219,11 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
           textColor: Colors.white
       );
     }, _meetingId, 1);
+  }
+
+  @override
+  void dispose() {
+    _reasonController?.dispose();
+    super.dispose();
   }
 }
