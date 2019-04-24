@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_undermoon/VIPS/VIPCenter.dart';
 import 'package:flutter_undermoon/articles/ArticleListScreen.dart';
 import 'package:flutter_undermoon/meetings/MeetingListScreen.dart';
 
@@ -72,7 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     _pages..add(MeetingListScreen())
-      ..add(ArticleListScreen());
+      ..add(ArticleListScreen())
+      ..add(VIPCenter());
     super.initState();
   }
 
@@ -88,6 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
         BottomNavigationBarItem(
           icon: Icon(Icons.star_border),
           title: Text('反馈'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.people),
+          title: Text('会员'),
         ),
       ],
       currentIndex: _currentIndex,

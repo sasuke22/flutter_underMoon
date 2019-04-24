@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_undermoon/VIPS/UserListModel.dart';
 import 'package:flutter_undermoon/articles/Article.dart';
 import 'package:flutter_undermoon/articles/ArticlesModel.dart';
 import 'package:flutter_undermoon/meetings/MeetingDetail.dart';
@@ -49,5 +50,10 @@ class DioUtil {
       return response.data;
     else
       return -1;
+  }
+
+  static Future<UserListModel> getAllUsers(int count) async {
+    var response = await Dio().get(APPLICATION_SERVER + 'getalluser',data: {'count': count});
+    return UserListModel.fromJson(response.data);
   }
 }
