@@ -21,9 +21,11 @@ class MeetingListScreenState extends State<MeetingListScreen>{
   int _count = 0;
   List<MeetingDetail> _meetings = [];
   bool _displayAll = true;
+  var _scrollController;
 
   @override
   void initState() {
+    _scrollController = ScrollController();
     super.initState();
     _loadMeetings();
   }
@@ -31,11 +33,11 @@ class MeetingListScreenState extends State<MeetingListScreen>{
   @override
   Widget build(BuildContext context) {
     var _meetingListView = ListView.builder(
-      controller: _listViewController(),
+      controller: _scrollController,
       physics: AlwaysScrollableScrollPhysics(),
       itemCount: _meetings.length,
       itemBuilder: (context,index){
-        var item = MeetingItem(_meetings[index]);
+        var item = MeetingItem(_meetings[index],onDelete: (id){_deleteItem(index,id);},);
         return item;
       });
 
@@ -125,10 +127,10 @@ class MeetingListScreenState extends State<MeetingListScreen>{
     }, _count);
   }
 
-  Future<Null> _listViewRefresh() {
+  Future<Null> _listViewRefresh() async {
     _count = 0;
     _meetings.clear();
-    return _loadMeetings();
+    return await _loadMeetings();
   }
 
   bool _onScrollNotification(ScrollNotification notification) {
@@ -137,6 +139,9 @@ class MeetingListScreenState extends State<MeetingListScreen>{
     return false;
   }
 
-  ScrollController _listViewController() {return ScrollController();}
-
+  void _deleteItem(int index,int id) {
+    setState(() {
+      _meetings.removeAt(index);
+    });
+  }
 }

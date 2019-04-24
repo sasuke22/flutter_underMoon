@@ -9,18 +9,18 @@ class Article {
   int approve;//0:未审核,1:审核通过,-1:审核不通过
   String reason;
 
-  Article({this.id,this.userId,this.date,this.title,this.content,this.pics});
+  Article({this.id,this.userId,this.gender,this.date,this.title,this.content,this.pics});
 
   Article.fromJson(Map<String,dynamic> json)
   : id = json['id'],
   userId = json['userId'],
   gender = json['gender'],
   date = DateTime.parse(json['date']),
-  title = json['title'],
-  content = json['content'],
+  title = json['title']?.replaceAll('^', ' '),
+  content = json['content']?.replaceAll('^', ' '),
   pics = json['pics'],
   approve = json['approve'],
-  reason = json['reason'];
+  reason = json['reason']?.replaceAll('^', ' ');
 
   Map<String,dynamic> toJson() =>
       {
@@ -28,10 +28,10 @@ class Article {
         'userId' : userId,
         'gender' : gender,
         'date' : date,
-        'title' : title,
-        'content' : content,
+        'title' : title?.replaceAll(' ', '^'),
+        'content' : content?.replaceAll(' ', '^'),
         'pics' : pics,
         'approve' : approve,
-        'reason' : reason
+        'reason' : reason?.replaceAll(' ', '^')
       };
 }

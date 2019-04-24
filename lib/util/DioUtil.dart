@@ -38,4 +38,16 @@ class DioUtil {
     var response = await Dio().post(APPLICATION_SERVER + 'changearticleapprove',data: fromData);
     return response.data;
   }
+
+  static Future<int> deleteMeeting(int meetingId,bool isMeeting) async {
+    FormData formData = FormData.from({
+      'meetingid': meetingId,
+      'ismeeting': isMeeting
+    });
+    var response = await Dio().post(APPLICATION_SERVER + 'deletemeeting',data: formData);
+    if(response.statusCode == 200)
+      return response.data;
+    else
+      return -1;
+  }
 }

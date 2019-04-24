@@ -27,7 +27,7 @@ class ArticleListScreenState extends State<ArticleListScreen>{
         physics: AlwaysScrollableScrollPhysics(),
         itemCount: _articles.length,
         itemBuilder: (context,index){
-          var item = ArticleItem(_articles[index]);
+          var item = ArticleItem(_articles[index],onDelete:(id){_deleteItem(index,id);});
           return item;
         });
 
@@ -72,7 +72,7 @@ class ArticleListScreenState extends State<ArticleListScreen>{
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text('邀约列表'),
+        title: Text('反馈列表'),
         actions: <Widget>[
           _menu,
         ],
@@ -130,4 +130,10 @@ class ArticleListScreenState extends State<ArticleListScreen>{
   }
 
   ScrollController _listViewController() {return ScrollController();}
+
+  void _deleteItem(int index,int id) {
+    setState(() {
+      _articles.removeAt(index);
+    });
+  }
 }

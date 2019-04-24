@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_undermoon/CustomView/AvatarWithGender.dart';
 import 'package:flutter_undermoon/articles/Article.dart';
 import 'package:flutter_undermoon/articles/ArticleDetailScreen.dart';
 import 'package:flutter_undermoon/util/DateUtil.dart';
@@ -36,10 +37,7 @@ class ArticleItem extends StatelessWidget{
           child: Padding(padding: EdgeInsets.fromLTRB(8,5,8,5),
             child: Row(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Image.network(DioUtil.PIC_SERVER + 'article/${_articleDetail.id}/0.jpg',width: 80,height: 80,fit: BoxFit.cover),
-                  ),
+                  AvatarWithGender(36,_articleDetail.userId,_articleDetail.gender),
                   Expanded(
                       child: Container(height: 80,child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
