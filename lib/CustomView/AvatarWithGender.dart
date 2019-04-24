@@ -32,7 +32,8 @@ class AvatarWithGender extends StatelessWidget{
                 radius: size,
             ),
             CircleAvatar(
-              child: Text(gender == 1 ? '♂' : '♀',style: TextStyle(fontSize: 14-80/size,color: gender == 1 ? Colors.blue : Colors.pink),),
+              backgroundColor: Colors.grey[100],
+              child: Text(gender == 1 ? '♂' : '♀',style: TextStyle(fontSize: 14-80/size,color: gender == 1 ? Colors.lightBlue : Colors.pink),),
               radius: size/3.6,
             )
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_undermoon/CustomView/AvatarWithGender.dart';
 import 'package:flutter_undermoon/CustomView/PhotoPageView.dart';
+import 'package:flutter_undermoon/CustomView/UnderMoonDialog.dart';
 import 'package:flutter_undermoon/articles/Article.dart';
 import 'package:flutter_undermoon/util/DateUtil.dart';
 import 'package:flutter_undermoon/util/DioUtil.dart';
@@ -40,6 +41,9 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
       appBar: AppBar(
         elevation: 1.0,
         title: Text('反馈详情'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.delete), onPressed: (){_deleteMeeting(context,widget.article.id);})
+        ],
       ),
       backgroundColor: Colors.grey[200],
       body: meetingDetailScreenBody(context),
@@ -91,7 +95,7 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('匿名'),
+              Text('${widget.article.id}'),
               Text(DateUtil.getFormattedTime(widget.article.date),)
             ],
           )
@@ -249,5 +253,44 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
   void dispose() {
     _reasonController?.dispose();
     super.dispose();
+  }
+
+  void _deleteMeeting(BuildContext context, int meetingId) {
+    showDialog(context: context,builder: (_) => CupertinoAlertDialog(
+      content: Text('你确定删除这个邀约吗?',textScaleFactor: 1.0),actions: <Widget>[
+      GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: (){setState(() {
+          Navigator.pop(context);
+          showDialog(context: context,builder: (_) => UnderMoonDialog('正在删除...'));
+          DioUtil.deleteMeeting(meetingId,false).then((result){
+            if(result == 1){
+              Navigator.pop(context);
+              var _result = {'delete': widget.article.id};
+              Navigator.pop(context,_result);
+              Fluttertoast.showToast(msg: '删除成功');
+            }else
+              Fluttertoast.showToast(msg: '删除失败,请重试');
+          });
+        });},
+        child: Container(
+          padding: EdgeInsets.only(top: 10,bottom: 10),
+          alignment: Alignment.center,
+          child: Text('确定',style: Theme.of(context).textTheme.display1),
+        ),
+      ),
+      GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: (){setState(() {
+          Navigator.pop(context);
+        });},
+        child: Container(
+          padding: EdgeInsets.only(top: 10,bottom: 10),
+          alignment: Alignment.center,
+          child: Text('取消',style: Theme.of(context).textTheme.display2),
+        ),
+      )
+    ],
+    ));
   }
 }

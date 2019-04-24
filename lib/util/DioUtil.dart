@@ -5,8 +5,8 @@ import 'package:flutter_undermoon/meetings/MeetingDetail.dart';
 import 'package:flutter_undermoon/meetings/MeetingsModel.dart';
 
 class DioUtil {
-  static const APPLICATION_SERVER = 'http://192.168.107.33:8080/qiqiim-server/';
-  static const PIC_SERVER = 'http://192.168.107.33:8089/';
+  static const APPLICATION_SERVER = 'http://undermoonserver.ngrok.xiaomiqiu.cn/qiqiim-server/';
+  static const PIC_SERVER = 'http://undermoonpic.ngrok.xiaomiqiu.cn/';
 
   static void getMeetingDetail(Function callback,int meetingId) async{
     Dio().get(APPLICATION_SERVER + 'invitationdetail',data: {'meetingid': meetingId}).then((response){
@@ -37,5 +37,17 @@ class DioUtil {
     });
     var response = await Dio().post(APPLICATION_SERVER + 'changearticleapprove',data: fromData);
     return response.data;
+  }
+
+  static Future<int> deleteMeeting(int meetingId,bool isMeeting) async {
+    FormData formData = FormData.from({
+      'meetingid': meetingId,
+      'ismeeting': isMeeting
+    });
+    var response = await Dio().post(APPLICATION_SERVER + 'deletemeeting',data: formData);
+    if(response.statusCode == 200)
+      return response.data;
+    else
+      return -1;
   }
 }

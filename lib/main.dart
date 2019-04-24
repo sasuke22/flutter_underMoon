@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_undermoon/articles/ArticleListScreen.dart';
 import 'package:flutter_undermoon/meetings/MeetingListScreen.dart';
@@ -20,6 +21,25 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
+        textTheme: TextTheme(display1: TextStyle(
+          fontFamily: '.SF UI Text',
+          inherit: false,
+          fontSize: 13.4,
+          fontWeight: FontWeight.w500,
+          color: CupertinoColors.activeBlue,
+          height: 1.036,
+          letterSpacing: -0.25,
+          textBaseline: TextBaseline.alphabetic,
+        ),display2: TextStyle(
+          fontFamily: '.SF UI Text',
+          inherit: false,
+          fontSize: 13.4,
+          fontWeight: FontWeight.w500,
+          color: CupertinoColors.destructiveRed,
+          height: 1.036,
+          letterSpacing: -0.25,
+          textBaseline: TextBaseline.alphabetic,
+        )),
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Under moon server'),
@@ -58,8 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     Widget _bottomNavigationBar = BottomNavigationBar(
       iconSize: 20,
       items: [
