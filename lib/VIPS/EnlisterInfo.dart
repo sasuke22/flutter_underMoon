@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_undermoon/CustomView/PhotoPageView.dart';
+import 'package:flutter_undermoon/CustomView/UnderMoonDialog.dart';
 import 'package:flutter_undermoon/VIPS/User.dart';
 import 'package:flutter_undermoon/util/DioUtil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EnlisterInfo extends StatefulWidget {
   final User _user;
@@ -115,7 +117,16 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(top: _statusBarHeight),child: BackButton(color: Colors.white,),),
+            Padding(padding: EdgeInsets.only(top: _statusBarHeight),child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                BackButton(color: Colors.white),
+                GestureDetector(
+                  onTap: (){_showDialogDisableUser(context,widget._user.id);},
+                  child: Text('禁用',style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            )),
           ]
         ),
     );
@@ -137,5 +148,46 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
       );
     }
     return _photoList;
+  }
+
+  void _showDialogDisableUser(BuildContext context,int id) {
+    showDialog(context: context,builder: (_) =>
+        CupertinoAlertDialog(
+          content: Text('你确定禁用此人吗?',textScaleFactor: 1.0),actions: <Widget>[
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){setState(() {
+              Navigator.pop(context);
+              showDialog(context: context,builder: (_) => UnderMoonDialog('正在禁用...'));
+              DioUtil.disableUser(widget._user.id,widget._user.lock).then((result){
+                if(result == 1){
+                  Navigator.pop(context);
+                  var _result = {'delete': widget._user.id};
+                  Navigator.pop(context,_result);
+                  Fluttertoast.showToast(msg: '禁用成功');
+                }else
+                  Fluttertoast.showToast(msg: '禁用失败,请重试');
+              });
+            });},
+            child: Container(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              alignment: Alignment.center,
+              child: Text('确定',style: Theme.of(context).textTheme.display1),
+            ),
+          ),
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){setState(() {
+              Navigator.pop(context);
+            });},
+            child: Container(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              alignment: Alignment.center,
+              child: Text('取消',style: Theme.of(context).textTheme.display2),
+            ),
+          )
+        ],
+        )
+    );
   }
 }

@@ -56,4 +56,10 @@ class DioUtil {
     var response = await Dio().get(APPLICATION_SERVER + 'getalluser',data: {'count': count});
     return UserListModel.fromJson(response.data);
   }
+
+  static Future<int> disableUser(int id,int lock) async {
+    int toLock = lock == 1 ? 0 : 1;
+    var response = await Dio().get(APPLICATION_SERVER + 'disableuser',data: {'id': id,'lock': toLock});
+    return response.data;
+  }
 }

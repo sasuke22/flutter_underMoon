@@ -15,9 +15,10 @@ class User{
   String xingzuo;
   String photoAddress;
   int score;
+  int lock;
 
   User({this.account,this.password,this.id,this.userName,this.location,this.age,this.height,this.marry,this.job,this.figure,
-    this.xingzuo,this.userBriefIntro = '暂无介绍'});
+    this.xingzuo,this.userBriefIntro = '暂无介绍',this.lock});
 
   User.fromJson(Map<String, dynamic> json)
     : id = json['id'],
@@ -35,7 +36,8 @@ class User{
     figure = json['figure'],
     xingzuo = json['xingzuo'],
     photoAddress = json['photoAddress'],
-    score = json['score'];
+    score = json['score'],
+    lock = json['lock'];
 
   Map<String, dynamic> toJson() =>
     {
@@ -54,6 +56,7 @@ class User{
       'figure' : figure == '' ? null : figure,
       'xingzuo' : xingzuo,
       'photoAddress' : photoAddress == '' ? null : photoAddress,
-      'score' : score
+      'score' : score,
+      'lock' : lock
     };
 }
