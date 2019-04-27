@@ -111,19 +111,21 @@ class MeetingListScreenState extends State<MeetingListScreen>{
       return null;
     _isLoading = true;
     return DioUtil.getMeetingsByCount((MeetingsModel _model){
-      setState(() {
-        List<MeetingDetail> _temp = List<MeetingDetail>();
-        if(!_displayAll)
-          _model.meetings.forEach((item){
-            if(item.approve == 0)
-              _temp.add(item);
-          });
-        else
-          _temp.addAll(_model.meetings);
-        _meetings.addAll(_temp);
-        _isLoading = false;
-        _count += _model.meetings.length;
-      });
+      if(this.mounted){
+        setState(() {
+          List<MeetingDetail> _temp = List<MeetingDetail>();
+          if(!_displayAll)
+            _model.meetings.forEach((item){
+              if(item.approve == 0)
+                _temp.add(item);
+            });
+          else
+            _temp.addAll(_model.meetings);
+          _meetings.addAll(_temp);
+          _isLoading = false;
+          _count += _model.meetings.length;
+        });
+      }
     }, _count);
   }
 

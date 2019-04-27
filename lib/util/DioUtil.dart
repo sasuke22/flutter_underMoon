@@ -59,7 +59,28 @@ class DioUtil {
 
   static Future<int> disableUser(int id,int lock) async {
     int toLock = lock == 1 ? 0 : 1;
-    var response = await Dio().get(APPLICATION_SERVER + 'disableuser',data: {'id': id,'lock': toLock});
-    return response.data;
+    FormData formData = FormData.from({
+      'id': id,
+      'lock': toLock
+    });
+    try{
+      var response = await Dio().post(APPLICATION_SERVER + 'disableuser',data: formData);
+      return response.data;
+    } on DioError{
+      return -1;
+    }
+  }
+
+  static Future<int> topMeeting(int meetingId,int top) async {
+    FormData formData = FormData.from({
+      'meetingid': meetingId,
+      'top': top
+    });
+    try{
+      var response = await Dio().post(APPLICATION_SERVER + 'topmeeting',data: formData);
+      return response.data;
+    } on DioError{
+      return -1;
+    }
   }
 }

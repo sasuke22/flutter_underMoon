@@ -18,16 +18,16 @@ class UserItem extends StatelessWidget{
         style: TextStyle(fontSize: 16.0)
     ));
     _vipInfo.add(Text(
-        _user.userBriefIntro,
+        _user.userBriefIntro ?? '暂无介绍' ,
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
-        style: TextStyle(fontSize: 16.0,color: Colors.grey)
+        style: TextStyle(fontSize: 12.0,color: Colors.grey)
     ));
     _vipInfo.add(Text(
         _user.location,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: TextStyle(fontSize: 16.0,color: Colors.grey)
+        style: TextStyle(fontSize: 12.0,color: Colors.grey)
     ));
 
     var widget = Card(

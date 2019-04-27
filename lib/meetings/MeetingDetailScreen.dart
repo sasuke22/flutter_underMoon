@@ -38,6 +38,12 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
 
   @override
   Widget build(BuildContext context) {
+    String _top;
+    if(null == _meetingDetail || _meetingDetail.top == 0){
+      _top = '置顶';
+    } else
+      _top = '取消置顶';
+
     return Scaffold(
       appBar: AppBar(
         title: Text('邀约详情'),
@@ -45,6 +51,9 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
           IconButton(icon: Icon(Icons.delete), onPressed: (){_deleteMeeting(context,_meetingDetail.meetingId);})
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){_pushMeetingToTop(context);},
+        child: Text(_top)),
       body: null == _meetingDetail ?
         SpinKitFoldingCube (
           itemBuilder: (_, int index) {
@@ -262,5 +271,46 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
       )
     ],
     ));
+  }
+
+  void _pushMeetingToTop(BuildContext context) {
+    showDialog(context: context,builder: (_) =>
+        CupertinoAlertDialog(
+          content: Text('你确定给他置顶吗?',textScaleFactor: 1.0),actions: <Widget>[
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){setState(() {
+              Navigator.pop(context);
+              showDialog(context: context,builder: (_) => UnderMoonDialog('正在置顶...'));
+              DioUtil.topMeeting(_meetingDetail.meetingId,_meetingDetail.top).then((result){
+                Navigator.pop(context);
+                if(result == 1){
+                  var _result = {'delete': _meetingId};
+                  Navigator.pop(context,_result);
+                  Fluttertoast.showToast(msg: '置顶成功');
+                }else
+                  Fluttertoast.showToast(msg: '置顶失败,请重试');
+              });
+            });},
+            child: Container(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              alignment: Alignment.center,
+              child: Text('确定',style: Theme.of(context).textTheme.display1),
+            ),
+          ),
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){setState(() {
+              Navigator.pop(context);
+            });},
+            child: Container(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              alignment: Alignment.center,
+              child: Text('取消',style: Theme.of(context).textTheme.display2),
+            ),
+          )
+        ],
+        )
+    );
   }
 }

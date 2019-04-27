@@ -20,6 +20,7 @@ class MeetingDetail{
   int score;
   int pics;
   String reason;
+  int top;
 
   MeetingDetail(this.id,this.city,this.content,this.summary,{this.date,this.age,this.height,this.job,this.gender,this.figure,this.xingzuo});
 
@@ -44,7 +45,8 @@ class MeetingDetail{
     enlistersName = json['enlistersName'],
     score = json['score'],
     pics = json['pics'],
-    reason = json['reason'];
+    reason = json['reason'],
+    top = json['top'];
 
   Map<String, dynamic> toJson() =>
   {
@@ -68,6 +70,7 @@ class MeetingDetail{
     'enlistersName' : enlistersName,
     'score' : score,
     'pics' : pics,
-    'reason' : reason
+    'reason' : reason,
+    'top' : top
   };
 }

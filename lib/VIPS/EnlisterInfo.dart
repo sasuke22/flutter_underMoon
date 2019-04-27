@@ -24,6 +24,8 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
 
   @override
   void initState() {
+    _genderString = widget._user.gender == 1 ? '男' : '女';
+    _analyzePics();
     super.initState();
   }
 
@@ -117,13 +119,13 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
                 ),
               ),
             ),
-            Padding(padding: EdgeInsets.only(top: _statusBarHeight),child: Row(
+            Padding(padding: EdgeInsets.only(top: _statusBarHeight,right: 10),child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 BackButton(color: Colors.white),
                 GestureDetector(
                   onTap: (){_showDialogDisableUser(context,widget._user.id);},
-                  child: Text('禁用',style: TextStyle(color: Colors.white)),
+                  child: Text(widget._user.lock == 1 ? '恢复' : '禁用',style: TextStyle(color: Colors.white)),
                 ),
               ],
             )),
@@ -160,8 +162,8 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
               Navigator.pop(context);
               showDialog(context: context,builder: (_) => UnderMoonDialog('正在禁用...'));
               DioUtil.disableUser(widget._user.id,widget._user.lock).then((result){
+                Navigator.pop(context);
                 if(result == 1){
-                  Navigator.pop(context);
                   var _result = {'delete': widget._user.id};
                   Navigator.pop(context,_result);
                   Fluttertoast.showToast(msg: '禁用成功');
@@ -189,5 +191,15 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
         ],
         )
     );
+  }
+
+  void _analyzePics() {
+    if(null != widget._user.photoAddress && widget._user.photoAddress != ''){
+      widget._user.photoAddress.split('|').forEach((index){
+        if(index != '|') {
+          _picUrls.add(DioUtil.PIC_SERVER + '${widget._user.id}/$index.jpg');
+        }
+      });
+    }
   }
 }
