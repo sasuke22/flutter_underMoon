@@ -72,9 +72,10 @@ class DioUtil {
   }
 
   static Future<int> topMeeting(int meetingId,int top) async {
+    int toTop = top == 1 ? 0 : 1;
     FormData formData = FormData.from({
       'meetingid': meetingId,
-      'top': top
+      'top': toTop
     });
     try{
       var response = await Dio().post(APPLICATION_SERVER + 'topmeeting',data: formData);

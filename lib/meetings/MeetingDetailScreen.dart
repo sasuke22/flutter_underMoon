@@ -276,20 +276,20 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
   void _pushMeetingToTop(BuildContext context) {
     showDialog(context: context,builder: (_) =>
         CupertinoAlertDialog(
-          content: Text('你确定给他置顶吗?',textScaleFactor: 1.0),actions: <Widget>[
+          content: Text('你确定执行这个动作吗?',textScaleFactor: 1.0),actions: <Widget>[
           GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: (){setState(() {
               Navigator.pop(context);
-              showDialog(context: context,builder: (_) => UnderMoonDialog('正在置顶...'));
+              showDialog(context: context,builder: (_) => UnderMoonDialog('正在执行...'));
               DioUtil.topMeeting(_meetingDetail.meetingId,_meetingDetail.top).then((result){
                 Navigator.pop(context);
                 if(result == 1){
                   var _result = {'delete': _meetingId};
                   Navigator.pop(context,_result);
-                  Fluttertoast.showToast(msg: '置顶成功');
+                  Fluttertoast.showToast(msg: '执行成功');
                 }else
-                  Fluttertoast.showToast(msg: '置顶失败,请重试');
+                  Fluttertoast.showToast(msg: '执行失败,请重试');
               });
             });},
             child: Container(
@@ -309,7 +309,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
               child: Text('取消',style: Theme.of(context).textTheme.display2),
             ),
           )
-        ],
+          ],
         )
     );
   }
