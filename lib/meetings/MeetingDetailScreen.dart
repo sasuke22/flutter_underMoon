@@ -39,10 +39,14 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
   @override
   Widget build(BuildContext context) {
     String _top;
+    double _topLeftPadding;
     if(null == _meetingDetail || _meetingDetail.top == 0){
+      _topLeftPadding = 0;
       _top = '置顶';
-    } else
-      _top = '取消置顶';
+    } else{
+      _topLeftPadding = 10;
+      _top = '取消\r置顶';
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -53,7 +57,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){_pushMeetingToTop(context);},
-        child: Text(_top)),
+        child: Padding(padding: EdgeInsets.only(left: _topLeftPadding),child: Text(_top))),
       body: null == _meetingDetail ?
         SpinKitFoldingCube (
           itemBuilder: (_, int index) {
@@ -285,8 +289,7 @@ class MeetingDetailScreenState extends State<MeetingDetailScreen>{
               DioUtil.topMeeting(_meetingDetail.meetingId,_meetingDetail.top).then((result){
                 Navigator.pop(context);
                 if(result == 1){
-                  var _result = {'delete': _meetingId};
-                  Navigator.pop(context,_result);
+                  Navigator.pop(context);
                   Fluttertoast.showToast(msg: '执行成功');
                 }else
                   Fluttertoast.showToast(msg: '执行失败,请重试');

@@ -21,6 +21,7 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
   String _genderString;
   List<Widget> _photoList;
   List<ImageProvider> _imgProviderList;
+  String _restoreOrLimit;
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
     final height = screenWidth/1.72;
     double _statusBarHeight = MediaQuery.of(context).padding.top;
     var _photoGrid;
+    _restoreOrLimit = widget._user.lock == 1 ? '恢复' : '禁用';
 
     if(_picUrls.length > 0){
       _photoGrid = GridView.count(
@@ -125,7 +127,7 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
                 BackButton(color: Colors.white),
                 GestureDetector(
                   onTap: (){_showDialogDisableUser(context,widget._user.id);},
-                  child: Text(widget._user.lock == 1 ? '恢复' : '禁用',style: TextStyle(color: Colors.white)),
+                  child: Text(_restoreOrLimit,style: TextStyle(color: Colors.white)),
                 ),
               ],
             )),
@@ -155,20 +157,20 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
   void _showDialogDisableUser(BuildContext context,int id) {
     showDialog(context: context,builder: (_) =>
         CupertinoAlertDialog(
-          content: Text('你确定禁用此人吗?',textScaleFactor: 1.0),actions: <Widget>[
+          content: Text('你确定$_restoreOrLimit此人吗?',textScaleFactor: 1.0),actions: <Widget>[
           GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: (){setState(() {
               Navigator.pop(context);
-              showDialog(context: context,builder: (_) => UnderMoonDialog('正在禁用...'));
+              showDialog(context: context,builder: (_) => UnderMoonDialog('正在$_restoreOrLimit...'));
               DioUtil.disableUser(widget._user.id,widget._user.lock).then((result){
                 Navigator.pop(context);
                 if(result == 1){
                   var _result = {'delete': widget._user.id};
                   Navigator.pop(context,_result);
-                  Fluttertoast.showToast(msg: '禁用成功');
+                  Fluttertoast.showToast(msg: '$_restoreOrLimit成功');
                 }else
-                  Fluttertoast.showToast(msg: '禁用失败,请重试');
+                  Fluttertoast.showToast(msg: '$_restoreOrLimit失败,请重试');
               });
             });},
             child: Container(
