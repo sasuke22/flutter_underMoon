@@ -22,6 +22,7 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
   List<Widget> _photoList;
   List<ImageProvider> _imgProviderList;
   String _restoreOrLimit;
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -117,6 +118,14 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
                       child: Text(null == widget._user.userBriefIntro ? '暂无介绍' : widget._user.userBriefIntro),
                     ),
                     _photoGrid,
+                    Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Row(
+                          children: <Widget>[
+                            Text('密码:'+widget._user.password),
+                            IconButton(icon: Icon(Icons.edit), onPressed: (){_editPassword();})
+                          ],
+                        ))
                   ],
                 ),
               ),
@@ -203,5 +212,51 @@ class _EnlisterInfoState extends State<EnlisterInfo> {
         }
       });
     }
+  }
+
+  void _editPassword() {
+    showDialog(context: context,builder: (_) => Material(
+      type: MaterialType.transparency,
+      child: Center(
+        child: CupertinoAlertDialog(
+          title: Text('请输入新密码'),
+          content: TextField(
+            controller: _passwordController,
+            decoration: InputDecoration(hintText: '新密码',border: InputBorder.none,contentPadding: EdgeInsets.all(0)),
+          ),actions: <Widget>[
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){setState(() {
+              Navigator.pop(context);
+              showDialog(context: context,builder: (_) => UnderMoonDialog('正在修改...'));
+              DioUtil.savePassword(widget._user.id,_passwordController.text.toString().trim()).then((result){
+                if(result == 1){
+                  Navigator.pop(context);
+                  Fluttertoast.showToast(msg: '修改成功');
+                }else
+                  Fluttertoast.showToast(msg: '修改失败,请重试');
+              });
+            });},
+            child: Container(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              alignment: Alignment.center,
+              child: Text('确定',style: Theme.of(context).textTheme.display1),
+            ),
+          ),
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: (){setState(() {
+              Navigator.pop(context);
+            });},
+            child: Container(
+              padding: EdgeInsets.only(top: 10,bottom: 10),
+              alignment: Alignment.center,
+              child: Text('取消',style: Theme.of(context).textTheme.display2),
+            ),
+          )
+        ],
+        ),
+      ),
+    ));
   }
 }

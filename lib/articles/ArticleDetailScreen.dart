@@ -66,12 +66,25 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
           Expanded(
               flex: 1,
               child: Container(
-                padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
+                padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                 child: RaisedButton(
                   onPressed: _approve,
                   color: Colors.lightBlue,
                   textColor: Colors.white,
                   child: Text('通过'),
+                ),
+                height: 40,
+              )
+          ),
+          Expanded(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(5.0, 5.0, 10.0, 5.0),
+                child: RaisedButton(
+                  onPressed: _perfect,
+                  color: Colors.lightBlue,
+                  textColor: Colors.white,
+                  child: Text('加精'),
                 ),
                 height: 40,
               )
@@ -91,11 +104,11 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
       padding: EdgeInsets.only(left: 8,top: 8),
       child: Row(
         children: <Widget>[
-          AvatarWithGender(20.0,widget.article.id, widget.article.gender),
+          AvatarWithGender(20.0,widget.article.userId, widget.article.gender),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('${widget.article.id}'),
+              Text('${widget.article.userId}'),
               Text(DateUtil.getFormattedTime(widget.article.date),)
             ],
           )
@@ -239,7 +252,7 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
     _temp.approve = 1;
     DioUtil.changeArticleApprove(_temp).then((_result){
       Fluttertoast.showToast(
-          msg: 1 == _result ? '否决成功' : '否决失败',
+          msg: 1 == _result ? '通过成功' : '通过失败',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIos: 1,
@@ -292,5 +305,18 @@ class ArticleDetailScreenState extends State<ArticleDetailScreen>{
       )
     ],
     ));
+  }
+
+  void _perfect() {
+    DioUtil.changeArticlePerfect(widget.article.id).then((_result){
+      Fluttertoast.showToast(
+          msg: 1 == _result ? '加精成功' : '加精失败',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.lightBlue,
+          textColor: Colors.white
+      );
+    });
   }
 }

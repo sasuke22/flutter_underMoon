@@ -34,17 +34,27 @@ class MeetingItem extends StatelessWidget{
                                   fontSize: 16.0,
                                 )
                             ),
-                            Text(
-                                _meetingDetail.approve == 0 ? '未审核' : '已审核',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: _meetingDetail.approve == 0 ? Colors.red : Colors.lightGreenAccent
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                    _meetingDetail.approve == 1 ? '已通过' : _meetingDetail.approve == -1 ? '未通过' : '未审核',
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: _meetingDetail.approve == 1 ? Colors.lightGreenAccent : _meetingDetail.approve == -1 ? Colors.red : Colors.yellow
+                                    )
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Icon(Icons.textsms,color: Theme.of(context).backgroundColor,size: 18),
+                                    Text('${_meetingDetail.commentCount}',style: TextStyle(color: Theme.of(context).backgroundColor))
+                                  ],
                                 )
+                              ],
                             )
                           ]
                       )
                   ),
-                  Icon(Icons.arrow_forward_ios)
                 ]
             ),
           ),
