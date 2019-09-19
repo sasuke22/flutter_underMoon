@@ -22,6 +22,12 @@ class DioUtil {
     });
   }
 
+  static Future<Null> getUnapprovedMeetingsByCount(Function callback,int oldCount) async{
+    Dio().get(APPLICATION_SERVER + 'unapprovedcontributes',data: {'count': oldCount}).then((response){
+      callback(MeetingsModel.fromJson(response.data));
+    });
+  }
+
   static void changeMeetingApprove(Function callback, int meetingId, int approve, {String reason}) async{
     FormData formData = FormData.from({
       'meetingId': meetingId,
