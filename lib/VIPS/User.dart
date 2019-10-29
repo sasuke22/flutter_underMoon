@@ -16,6 +16,8 @@ class User{
   String photoAddress;
   int score;
   int lock;
+  bool bigVip;
+  bool isVip;
 
   User({this.account,this.password,this.id,this.userName,this.location,this.age,this.height,this.marry,this.job,this.figure,
     this.xingzuo,this.userBriefIntro = '暂无介绍',this.lock});
@@ -37,7 +39,9 @@ class User{
     xingzuo = json['xingzuo'],
     photoAddress = json['photoAddress'],
     score = json['score'],
-    lock = json['lock'];
+    lock = json['lock'],
+    isVip = DateTime.parse(json['vipDate']).isAfter(DateTime.now().add(Duration(seconds: 5))),
+    bigVip = DateTime.parse(json['bigVip']).isAfter(DateTime.now());
 
   Map<String, dynamic> toJson() =>
     {

@@ -35,7 +35,7 @@ class UserItem extends StatelessWidget{
       child: Padding(padding: EdgeInsets.fromLTRB(8,5,8,5),
         child: Row(
             children: <Widget>[
-              AvatarWithGender(36,_user.id,_user.gender),
+              AvatarWithGender(36,_user.id,_user.gender,isVip: _user.isVip,bigVip: _user.bigVip),
               Expanded(
                   child: Container(height: 80,child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

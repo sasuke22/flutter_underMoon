@@ -17,7 +17,7 @@ class MeetingListScreen extends StatefulWidget {
 class MeetingListScreenState extends State<MeetingListScreen> {
   int _count = 0;
   List<MeetingDetail> _meetings = [];
-  bool _displayAll = true;
+  String _displayAll = '全部';
   var _scrollController;
 
   @override
@@ -55,6 +55,10 @@ class MeetingListScreenState extends State<MeetingListScreen> {
     var _menu = PopupMenuButton<String>(
       itemBuilder: (context) => <PopupMenuItem<String>>[
         PopupMenuItem<String>(
+          value: '未通过',
+          child: Text('显示未通过'),
+        ),
+        PopupMenuItem<String>(
           value: '未审核',
           child: Text('显示未审核'),
         ),
@@ -64,14 +68,7 @@ class MeetingListScreenState extends State<MeetingListScreen> {
         )
       ],
       onSelected: (String action) {
-        switch (action) {
-          case '未审核':
-            _displayAll = false;
-            break;
-          case '全部':
-            _displayAll = true;
-            break;
-        }
+        _displayAll = action;
         _listViewRefresh();
       },
     );
@@ -106,10 +103,17 @@ class MeetingListScreenState extends State<MeetingListScreen> {
   Future<Null> _loadMeetings() {
     if (_isLoading || !this.mounted) return null;
     _isLoading = true;
-    if (_displayAll)
-      return DioUtil.getMeetingsByCount(updateMeetingList, _count);
-    else
-      return DioUtil.getUnapprovedMeetingsByCount(updateMeetingList, _count);
+    switch (_displayAll) {
+      case '全部':
+        return DioUtil.getMeetingsByCount(updateMeetingList, _count);
+        break;
+      case '未审核':
+        return DioUtil.getUnapprovedMeetingsByCount(updateMeetingList, _count);
+        break;
+      case '未通过':
+        return DioUtil.getRefusedMeetingsByCount(updateMeetingList, _count);
+        break;
+    }
   }
 
   Future<Null> _listViewRefresh() async {

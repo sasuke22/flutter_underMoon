@@ -7,8 +7,8 @@ import 'package:flutter_undermoon/meetings/MeetingsModel.dart';
 import 'dart:convert';
 
 class DioUtil {
-  static const APPLICATION_SERVER = 'http://45.204.8.236:8080/qiqiim-server/';
-  static const PIC_SERVER = 'http://45.204.8.236:8089/';
+  static const APPLICATION_SERVER = 'http://180.215.209.55:8080/qiqiim-server/';
+  static const PIC_SERVER = 'http://180.215.209.55:8089/';
 
   static void getMeetingDetail(Function callback,int meetingId) async{
     Dio().get(APPLICATION_SERVER + 'invitationdetail',data: {'meetingid': meetingId}).then((response){
@@ -24,6 +24,12 @@ class DioUtil {
 
   static Future<Null> getUnapprovedMeetingsByCount(Function callback,int oldCount) async{
     Dio().get(APPLICATION_SERVER + 'unapprovedcontributes',data: {'count': oldCount}).then((response){
+      callback(MeetingsModel.fromJson(response.data));
+    });
+  }
+
+  static Future<Null> getRefusedMeetingsByCount(Function callback, int count) async{
+    Dio().get(APPLICATION_SERVER + 'refusedcontributes',data: {'count': count}).then((response){
       callback(MeetingsModel.fromJson(response.data));
     });
   }

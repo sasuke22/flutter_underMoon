@@ -47,7 +47,7 @@ class ArticleListScreenState extends State<ArticleListScreen>{
         ),
         PopupMenuItem<String>(
           value: '全部',child: Text('显示全部'),
-        )
+        ),
       ],
       onSelected: (String action){
         switch(action){

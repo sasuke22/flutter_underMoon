@@ -22,6 +22,7 @@ class MeetingDetail{
   String reason;
   int top;
   bool isVip;
+  bool bigVip;
 
   MeetingDetail(this.id,this.city,this.content,this.summary,{this.date,this.age,this.height,this.job,this.gender,this.figure,this.xingzuo});
 
@@ -48,7 +49,8 @@ class MeetingDetail{
     pics = json['pics'],
     reason = json['reason'],
     top = json['top'],
-    isVip = json['isVip'];
+    isVip = json['isVip'],
+    bigVip = json['bigVip'];
 
   Map<String, dynamic> toJson() =>
   {
