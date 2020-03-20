@@ -7,8 +7,8 @@ import 'package:flutter_undermoon/meetings/MeetingsModel.dart';
 import 'dart:convert';
 
 class DioUtil {
-  static const APPLICATION_SERVER = 'http://180.215.209.55:8080/qiqiim-server/';
-  static const PIC_SERVER = 'http://180.215.209.55:8089/';
+  static const APPLICATION_SERVER = 'http://103.244.2.254:8080/qiqiim-server/';
+  static const PIC_SERVER = 'http://103.244.2.254:8089/';
 
   static void getMeetingDetail(Function callback,int meetingId) async{
     Dio().get(APPLICATION_SERVER + 'invitationdetail',data: {'meetingid': meetingId}).then((response){
